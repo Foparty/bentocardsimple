@@ -1,0 +1,157 @@
+---
+type Props = {
+	cols: string;
+	rows: string
+	bg?: string;
+	cover?: string;
+	title?: string;
+	img?: string;
+	textClr?: string;
+	titleLocation?: string;
+	fontSize?: string;
+	fontWeight?: string;
+	animation?: string;
+	smShow?: string;
+	direction?: string;
+	flex?: string;
+}
+
+const {
+	cols, 
+	rows, 
+	bg = '#fefefe', 
+	cover, 
+	title, 
+	img, 
+	textClr, 
+	titleLocation = 'bottom', 
+	fontSize = '1rem', 
+	fontWeight = '600', 
+	animation, 
+	smShow = 'flex', 
+	direction = 'column'
+	}:Props = Astro.props;
+---
+
+<article class="card" class:list={animation}>
+	{
+		cover && (
+		<img class="cover" src={cover} alt={title}/>
+		<h2 class:list={titleLocation} class="covertitle title">{title}</h2>
+	)
+	}
+	
+	{img && <img class="img" src={img} alt={title}/> }
+	{title && !cover && <h2 class="title">{title}</h2>}
+	
+</article>
+
+<style define:vars={{ cols, rows, bg, textClr, fontSize, fontWeight, smShow, direction}}>
+	.card {
+		position: relative;
+		background: var(--bg);
+		color: var(--textClr);
+		border-radius: .8rem;
+		overflow: hidden;
+		padding: 1rem;
+		text-align: center;
+		display: var(--smShow);
+		flex-direction: var(--direction);
+		justify-content: center;
+		align-items: center;
+		/* gap: .5rem; */
+		box-shadow: 3px 3px 2px 3px rgba(0, 0, 0, ,.4);
+		@media (width > 768px) {
+			display: flex;
+			grid-column: span var(--cols);
+			grid-row: span var(--rows);
+		}
+	}
+	
+	.img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		padding:0 1rem;
+	}
+	.cover {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		inset: 0;
+		object-fit: cover;
+		
+	}
+	.covertitle {
+		position: absolute;
+		
+	}
+	.bottom {
+		bottom: 1rem;
+	}
+
+	.top {
+		top: 1rem;
+	}
+
+	.center {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.title {
+		font-size: var(--fontSize);
+		font-weight: var(--fontWeight);
+	}
+	/* Animations */
+
+	@keyframes show{
+		100% {
+			transform: scale(1);
+			opacity: 1;
+			filter: blur(0rem);
+		}
+	}
+
+	@keyframes opacity {
+		to {
+			opacity: 1;
+		}
+	}
+	.slideLeft {
+		filter: blur(1rem);
+		opacity: .2;
+		transform: translateX(100%) scale(.3);
+		animation: show 400ms forwards ;
+	}
+	.slideRight {
+		filter: blur(1rem);
+		opacity: .2;
+		transform: translateX(-100%) scale(.3);
+		animation: show 400ms forwards ;
+	}
+	.slideTop {
+		filter: blur(1rem);
+		opacity: .2;
+		transform: translateY(100%) scale(.3);
+		animation: show 200ms forwards ;
+	}
+	.slideBottom {
+		filter: blur(1rem);
+		opacity: .2;
+		transform: translateY(-100%) scale(.3);
+		animation: show 500ms forwards ;
+	}
+	.slideOpacity {
+		opacity: 0;
+		animation: opacity 2000ms forwards;
+	}
+	.slideOpacity1 {
+		opacity: 0;
+		animation: opacity 3000ms forwards;
+	}
+	.slideOpacity1 {
+		opacity: 0;
+		animation: opacity 1000ms forwards;
+	}
+</style>
